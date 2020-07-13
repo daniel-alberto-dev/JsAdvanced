@@ -9,6 +9,7 @@ const isDev = !isProd;
 const filename = (ext) => (isDev ? `bundle.${ext}` : `bundle.[hash].${ext}`);
 const jsLoaders = () => {
   const loaders = [
+    
     {
       loader: "babel-loader",
       options: {
