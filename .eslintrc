@@ -6,7 +6,15 @@
         "node":true
     },
     "rules":{
-
+        "semi":"off",
+        "arrow-parens":"off",
+        "comma-dangle":"off",
+        "eol-last":"off",
+        "require-jsdoc":"off",
+        "linebreak-style":"off",
+        "max-len":"off",
+        "no-undef":"off",
+        "no-trailing-spaces": "off"
     },
     "extends":[
         "eslint:recommended", "google"
