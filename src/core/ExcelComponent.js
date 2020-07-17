@@ -8,9 +8,9 @@ export class ExcelComponent extends DomListener {
     return '<h1>Ecxel component</h1>'
   }
   init() {
-    this.initDOMListeners()
+    this.initDOMListener()
   }
   destroy() {
-    this.removeDOMListeners()
+    this.removeDOMListener()
   }
 }
