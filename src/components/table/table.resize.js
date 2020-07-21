@@ -1,48 +1,46 @@
-import {$} from '@core/Dom'
+import {$} from '@core/dom'
 
 export function resizeHandler($root, event) {
-  const $resaizer = $(event.target)
-  const $parent = $resaizer.closest('[data-type="resizable"]')
+  const $resizer = $(event.target)
+  const $parent = $resizer.closest('[data-type="resizable"]')
   const coords = $parent.getCoords()
-  const type = $resaizer.data.resize
+  const type = $resizer.data.resize
+  const sideProp = type === 'col' ? 'bottom' : 'right'
+  let value
 
-  if (type === 'col') {
-    $resaizer.css({
-      height: '500px'
-    })
-  } else {
-    $resaizer.css({
-      width: '1500px'
-    })
-  }
-  
-  const cells = $root.findAll(`[data-col="${$parent.data.col}"]`)
+  $resizer.css({
+    opacity: 1,
+    [sideProp]: '-5000px'
+  })
 
   document.onmousemove = e => {
     if (type === 'col') {
-      const delta = Math.floor(e.pageX - coords.right)
-      const value = coords.width + delta
-      $parent.css({width: value + 'px'})
-      cells.forEach(el => el.style.width = value + 'px')
+      const delta = e.pageX - coords.right
+      value = coords.width + delta
+      $resizer.css({right: -delta + 'px'})
     } else {
       const delta = e.pageY - coords.bottom
-      const value = coords.height + delta
-      $parent.css({height: value + 'px'})
+      value = coords.height + delta
+      $resizer.css({bottom: -delta + 'px'})
     }
   }
+
   document.onmouseup = () => {
     document.onmousemove = null
     document.onmouseup = null
+
     if (type === 'col') {
-      $resaizer.css({
-        opacity: 0,
-        height: '100%'
-      })
+      $parent.css({width: value + 'px'})
+      $root.findAll(`[data-col="${$parent.data.col}"]`)
+          .forEach(el => el.style.width = value + 'px')
     } else {
-      $resaizer.css({
-        opacity: 0,
-        width: '100%'
-      })
+      $parent.css({height: value + 'px'})
     }
+
+    $resizer.css({
+      opacity: 0,
+      bottom: 0,
+      right: 0
+    })
   }
-} 
+}
